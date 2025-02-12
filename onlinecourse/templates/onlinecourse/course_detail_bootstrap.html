@@ -51,6 +51,20 @@
                 {% endfor %}
             </div>
             <!-- Course detail template changes go here -->
+            {% if user.is_authenticated %}
+            <button type="button" data-toggle="collapse" data-target="#course-exam">Start Exam</button>
+            <div id="course-exam" class="collapse">
+                <form action="">
+                    {% for question in course.question_set.all %}
+                    <fieldset class="questions-list">
+                        {% for choice in question.choice_set.all %}
+                            <input type="checkbox" name="{{ choice.choice_text }}" value="{{ choice.choice_text }}">{{ choice.choice_text }}</li>
+                        {% endfor %}
+                    </fieldset>
+                    {% endfor %}
+                </form>
+            </div>
+            {% endif %}
     </div>
 </body>
 </html>
