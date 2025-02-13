@@ -54,18 +54,18 @@
             {% if user.is_authenticated %}
             <button type="button" data-toggle="collapse" data-target="#course-exam">Start Exam</button>
             <div id="course-exam" class="collapse card shadow-lg p-4">
-                <form action="{% url 'onlinecourse:submit' course.id %}" method="post">
+                <form action="{% url 'onlinecourse:exam_submit' course.id %}" method="post">
                     {% for question in course.question_set.all %}
                     {% csrf_token %}
                     <fieldset class="questions-group mb-3">
                         <legend>{{ question.question_text }}</legend>
                         {% for choice in question.choice_set.all %}
                         <div class="form-check">
-                            <input
-                                class="form-check-input"
-                                type="checkbox"
-                                name="choice_{{ choice.id }}"
-                                value="{{ choice.id }}"/>{{ choice.choice_text }}
+                            <label class="form-check-label">
+                            <input type="checkbox" name="choice_{{choice.id}}"
+                                    class="form-check-input" id="{{choice.id}}"
+                                    value="{{choice.id}}">{{ choice.choice_text }}
+                            </label>
                         </div>
                         {% endfor %}
                     </fieldset>
