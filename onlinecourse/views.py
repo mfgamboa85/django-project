@@ -143,17 +143,19 @@ def extract_answers(request):
 def show_exam_result(request, course_id, submission_id):
     course = get_object_or_404(Course, pk=course_id)
     submission = get_object_or_404(Submission, pk=submission_id)
-    all_choices = submission.choices.all()
+    submission_choices = submission.choices.all()
+    questions = Course.questions_set.all()
     score = 0
 
-    for choice in all_choices:
-        question = Question.objects.get()
-        choice_obj = Choice.objects.get(choice=choise)
-        if choice_obj.is_correct:
-            score += 
+    for question in questions:
+        correct_choices = set(question.choice_set.filter(is_correct=True))
+        question_choices = set(submission_choices.filter(question=question))
+
+        if correct_choices == question_choices:
+            score += question.grade_point
 
     context = {
-        'course': course_name,
+        'course': course,
         'choices': all_choices,
         'grade': score
     }
